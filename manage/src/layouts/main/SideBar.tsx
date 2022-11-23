@@ -1,6 +1,8 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { Space, MenuProps, Layout, Menu, Image, SiderProps } from 'antd';
 
+// hooks
+import useAuth from '../../hooks/useAuth';
 // routes
 import { PATH_DASHBOARD } from '../../routes/path';
 
@@ -10,14 +12,7 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 const SideBar = (props: SiderProps) => {
   const navigate = useNavigate();
-  const accessibleResources = [
-    {
-      key: '1',
-      label: 'Dashboard',
-      icon: '',
-      children: [],
-    },
-  ];
+  const { accessibleResources } = useAuth();
   const menuItems = accessibleResources.map((item) => {
     const { key, label, icon, children } = item!;
     const menuItem: MenuItem = { key, label, icon, children };

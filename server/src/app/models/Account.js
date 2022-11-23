@@ -2,10 +2,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mongooseDelete = require('mongoose-delete');
 
+const Services = {
+  manage: 'manage',
+  client: 'client',
+};
+
 const Types = {
-  administrator: 'Administrator',
-  teacher: 'Teacher',
-  student: 'Student',
+  [Services.manage]: {
+    administrator: 'Administrator',
+  },
+  [Services.client]: {
+    teacher: 'Teacher',
+    student: 'Student',
+  },
 };
 
 const Account = new Schema(
@@ -23,11 +32,11 @@ const Account = new Schema(
 );
 const Base = mongoose.model('Account', Account);
 
-const Administrator = Base.discriminator(Types.administrator, new Schema({}));
+const Administrator = Base.discriminator(Types.manage.administrator, new Schema({}));
 
-const Teacher = Base.discriminator(Types.teacher, new Schema({}));
+const Teacher = Base.discriminator(Types.manage.teacher, new Schema({}));
 
-const Student = Base.discriminator(Types.student, new Schema({}));
+const Student = Base.discriminator(Types.client.student, new Schema({}));
 
 Account.plugin(mongooseDelete, {
   deletedAt: true,
@@ -39,6 +48,7 @@ Account.plugin(mongooseDelete, {
 });
 
 module.exports = {
+  Services,
   Types,
   Account: Base,
   Administrator,
