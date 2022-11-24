@@ -1,9 +1,17 @@
 import { ReactNode } from 'react';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { DashboardOutlined, ControlOutlined, RestOutlined } from '@ant-design/icons';
+import {
+  DashboardOutlined,
+  UserOutlined,
+  QuestionCircleOutlined,
+  ControlOutlined,
+  RestOutlined,
+} from '@ant-design/icons';
 
 // models
 import type { Resources, Resource, Permission } from '../models';
+// redux
+import { getAccountsAction } from '../redux/actions/account';
 // routes
 import { PATH_DASHBOARD } from '../routes/path';
 // utils
@@ -41,6 +49,48 @@ export const generateResources = (resources: Resource[]): ResourceConfig[] => {
       icon: <DashboardOutlined />,
       avoid: true,
     },
+    (root.accounts && {
+      id: root.accounts._id,
+      locked: root.accounts.locked,
+      key: getSubKeyByDeepLevel(1, PATH_DASHBOARD.account.root),
+      label: root.accounts.name,
+      icon: <UserOutlined />,
+      children: [
+        (root.accounts.children?.find((e) => e._id === 'administrators') && {
+          id: root.accounts.children?.find((e) => e._id === 'administrators')!._id,
+          locked: root.accounts.children?.find((e) => e._id === 'administrators')!.locked,
+          key: PATH_DASHBOARD.account.administrators,
+          label: root.accounts.children?.find((e) => e._id === 'administrators')!.name,
+          fetching: getAccountsAction({ type: 'Administrator' }),
+        }) ||
+          null,
+        (root.accounts.children?.find((e) => e._id === 'teachers') && {
+          id: root.accounts.children?.find((e) => e._id === 'teachers')!._id,
+          locked: root.accounts.children?.find((e) => e._id === 'teachers')!.locked,
+          key: PATH_DASHBOARD.account.teachers,
+          label: root.accounts.children?.find((e) => e._id === 'teachers')!.name,
+          fetching: getAccountsAction({ type: 'Teacher' }),
+        }) ||
+          null,
+        (root.accounts.children?.find((e) => e._id === 'students') && {
+          id: root.accounts.children?.find((e) => e._id === 'students')!._id,
+          locked: root.accounts.children?.find((e) => e._id === 'students')!.locked,
+          key: PATH_DASHBOARD.account.students,
+          label: root.accounts.children?.find((e) => e._id === 'students')!.name,
+          fetching: getAccountsAction({ type: 'Student' }),
+        }) ||
+          null,
+      ],
+    }) ||
+      null,
+    (root.questions && {
+      id: root.questions._id,
+      locked: root.questions.locked,
+      key: PATH_DASHBOARD.questions,
+      label: root.questions.name,
+      icon: <QuestionCircleOutlined />,
+    }) ||
+      null,
     (root['access control'] && {
       id: root['access control']._id,
       locked: root['access control'].locked,

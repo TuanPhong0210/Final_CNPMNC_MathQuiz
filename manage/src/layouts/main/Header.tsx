@@ -33,7 +33,7 @@ const Header = () => {
   const { token } = useToken();
   const { profile, logout } = useAuth();
   const { name } = profile!;
-  const onClick: MenuProps['onClick'] = ({ key }) => {
+  const handleClickMenu: MenuProps['onClick'] = ({ key }) => {
     switch (key as Keys) {
       case 'logout':
         Modal.confirm({
@@ -59,7 +59,7 @@ const Header = () => {
         <div></div>
         <Space size="middle" align="center">
           <Text>{name}</Text>
-          <Dropdown menu={{ items, onClick }} trigger={['click']}>
+          <Dropdown menu={{ items, onClick: handleClickMenu }} trigger={['click']}>
             <CaretDownOutlined />
           </Dropdown>
         </Space>

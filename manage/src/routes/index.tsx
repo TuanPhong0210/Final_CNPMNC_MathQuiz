@@ -5,7 +5,7 @@ import { useRoutes, Navigate } from 'react-router-dom';
 import { rootResources } from '../config';
 // guards
 import AuthGuard from '../guards/AuthGuard';
-import AccessGuard from '../guards/AccessGuard';
+import AccessGuard, { ActionGuard } from '../guards/AccessGuard';
 // layouts
 import MainLayout from '../layouts/main';
 // pages
@@ -37,6 +37,41 @@ const Router = () => {
       ),
       children: [
         { path: '', element: <Dashboard /> },
+        {
+          path: 'accounts/:type',
+          element: (
+            <AccessGuard
+              accessConditions={({ type }) => root.accounts?.children?.find((e) => e._id === type)}
+            />
+          ),
+          children: [
+            { path: '', element: <AccountList /> },
+            {
+              path: 'create',
+              element: (
+                <ActionGuard actionsRequired={['create']}>
+                  <AccountCreate />
+                </ActionGuard>
+              ),
+            },
+            {
+              path: 'edit/:_id',
+              element: (
+                <ActionGuard actionsRequired={['update']}>
+                  <AccountCreate />
+                </ActionGuard>
+              ),
+            },
+          ],
+        },
+        {
+          path: 'questions',
+          element: (
+            <AccessGuard accessConditions={root.questions}>
+              <QuestionList />
+            </AccessGuard>
+          ),
+        },
         {
           path: 'access-control',
           children: [
@@ -110,6 +145,9 @@ const Router = () => {
 
 // Main
 const Dashboard = PageLoader(lazy(() => import('../pages/Dashboard')));
+const AccountList = PageLoader(lazy(() => import('../pages/account/AccountList')));
+const AccountCreate = PageLoader(lazy(() => import('../pages/account/AccountCreate')));
+const QuestionList = PageLoader(lazy(() => import('../pages/question/QuestionList')));
 const Roles = PageLoader(lazy(() => import('../pages/access-control/Roles')));
 const Resources = PageLoader(lazy(() => import('../pages/access-control/Resources')));
 const Operations = PageLoader(lazy(() => import('../pages/access-control/Operations')));

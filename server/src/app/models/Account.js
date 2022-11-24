@@ -10,9 +10,9 @@ const Services = {
 const Types = {
   [Services.manage]: {
     administrator: 'Administrator',
+    teacher: 'Teacher',
   },
   [Services.client]: {
-    teacher: 'Teacher',
     student: 'Student',
   },
 };

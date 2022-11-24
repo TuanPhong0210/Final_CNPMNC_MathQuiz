@@ -1,25 +1,23 @@
 import { Role } from './AccessControl';
 
-export type AccountType = 'Administrator' | 'Customer';
+export type AccountType = 'Administrator' | 'Teacher' | 'Student';
 
 export interface Account {
   _id: string;
-  phone_number: string;
-  avatar_url: string | null;
+  account_code: string;
   name: string;
-  email: string;
   roles: Role['name'][];
   type: AccountType;
 }
 
 export interface Administrator {}
 
-export interface Customer {
-  gender: string;
-  social: {
-    id: string | null;
-    type: string;
-  }[];
-}
+export interface Teacher {}
 
-export interface GeneralAccount extends Account, Partial<Administrator>, Partial<Customer> {}
+export interface Student {}
+
+export interface GeneralAccount
+  extends Account,
+    Partial<Administrator>,
+    Partial<Teacher>,
+    Partial<Student> {}
