@@ -12,6 +12,7 @@ import {
 import type { Resources, Resource, Permission } from '../models';
 // redux
 import { getAccountsAction } from '../redux/actions/account';
+import { getQuestionsAction } from '../redux/actions/question';
 // routes
 import { PATH_DASHBOARD } from '../routes/path';
 // utils
@@ -89,6 +90,7 @@ export const generateResources = (resources: Resource[]): ResourceConfig[] => {
       key: PATH_DASHBOARD.questions,
       label: root.questions.name,
       icon: <QuestionCircleOutlined />,
+      fetching: getQuestionsAction({}),
     }) ||
       null,
     (root['access control'] && {

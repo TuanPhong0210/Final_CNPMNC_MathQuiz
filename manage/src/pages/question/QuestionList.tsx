@@ -5,8 +5,13 @@ import { QuestionCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-desig
 
 // guard
 import type { ActionsPassedGuardProps } from '../../guards/AccessGuard';
+// hooks
+import useDrawer from '../../hooks/useDrawer';
 // models
 import { Question } from '../../models';
+// redux
+import { useAppSelector } from '../../redux/hooks';
+import { selectQuestion } from '../../redux/slices/question';
 
 const { Text } = Typography;
 
@@ -24,19 +29,28 @@ const columns: ColumnsType<Question> = [
 ];
 
 const QuestionList = ({ actionsAllowed }: ActionsPassedGuardProps) => {
+  const { openDrawer } = useDrawer();
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
+  const { isLoading, questions } = useAppSelector(selectQuestion);
   const actionsAccessible: ColumnsType<Question> = [
     {
       title: 'Actions',
       dataIndex: '',
-      render: () => {
+      render: (_, record) => {
+        const { _id } = record;
         return (
           <Space size="middle" align="center">
             {actionsAllowed.includes('update') && (
               <Tag
                 icon={<EditOutlined />}
                 color="success"
-                onClick={() => {}}
+                onClick={() =>
+                  openDrawer({
+                    key: 'questionForm',
+                    title: `Update question`,
+                    props: { question: questions.find((question) => question._id === _id) },
+                  })
+                }
                 style={{ cursor: 'pointer' }}
               >
                 Update
@@ -76,7 +90,17 @@ const QuestionList = ({ actionsAllowed }: ActionsPassedGuardProps) => {
     <Space direction="vertical" size="middle" style={{ width: '100%' }}>
       <Space size="middle">
         {actionsAllowed.includes('create') && (
-          <Button type="primary" shape="round" icon={<QuestionCircleOutlined />}>
+          <Button
+            type="primary"
+            shape="round"
+            icon={<QuestionCircleOutlined />}
+            onClick={() =>
+              openDrawer({
+                key: 'questionForm',
+                title: 'Create question',
+              })
+            }
+          >
             Create question
           </Button>
         )}
@@ -91,12 +115,13 @@ const QuestionList = ({ actionsAllowed }: ActionsPassedGuardProps) => {
       </Space>
       <Table
         rowKey="_id"
+        loading={isLoading}
         rowSelection={{
           selectedRowKeys,
           onChange: handleChangeSelectedRow,
         }}
         columns={actionsAllowed.length > 0 ? [...columns, ...actionsAccessible] : columns}
-        dataSource={[]}
+        dataSource={questions}
       />
     </Space>
   );

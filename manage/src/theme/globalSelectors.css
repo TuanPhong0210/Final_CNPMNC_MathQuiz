@@ -20,6 +20,20 @@ html {
     width: 100%;
 }
 
+.ant-checkbox-group.vertical-checkbox-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.ant-checkbox-group.vertical-checkbox-group .ant-checkbox-group-item {
+    margin: 5px 0;
+    align-items: center;
+}
+
+.ant-checkbox-group.vertical-checkbox-group .ant-checkbox-group-item > span:last-child {
+    width: 100%;
+}
+
 .ant-collapse-no-header-padding .ant-collapse-header {
     padding: 0 !important;
 }

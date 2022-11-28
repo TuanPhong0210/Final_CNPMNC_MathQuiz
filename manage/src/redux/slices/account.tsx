@@ -19,8 +19,7 @@ import type {
   CreateAccountPayload,
   UpdateAccountPayload,
 } from '../actions/account';
-import { CREATE_ACCOUNT, UPDATE_ACCOUNT } from '../actions/account';
-import { GET_ACCOUNTS } from '../actions/account';
+import { GET_ACCOUNTS, CREATE_ACCOUNT, UPDATE_ACCOUNT } from '../actions/account';
 
 export interface AccountState {
   isLoading: boolean;
