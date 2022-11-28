@@ -6,8 +6,10 @@ import {
 	GlobalStyles as MuiGlobalStyles,
 } from '@mui/material';
 
+
 //
 import GlobalStyles from './globalStyles';
+import palette from './palette'
 
 const propTypes = {
 	children: PropTypes.node,
@@ -15,6 +17,7 @@ const propTypes = {
 
 const ThemeConfig = ({ children }) => {
 	const themeOptions = {
+		palette,
 		typography: {
 			fontFamily: 'Quicksand',
 		},

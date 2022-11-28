@@ -1,7 +1,8 @@
-import Router from "./routes"
-
-//theme
-import ThemeConfig from "./theme";
+import './App.css';
+// routes
+import Router from './routes';
+// theme
+import ThemeConfig from './theme';
 
 const App = () => {
   return (
@@ -9,6 +10,6 @@ const App = () => {
       <Router />
     </ThemeConfig>
   );
-}
+};
 
 export default App;
