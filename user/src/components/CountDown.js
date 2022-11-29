@@ -21,7 +21,7 @@ const CountDown = ({ countdown }) => {
     <CountDownStyle countdown={countdown}>
       <CdNumberStyle>{fTime(cdNumber)}</CdNumberStyle>
       <svg>
-        <circle r="25" cx="25" cy="25"></circle>
+        <circle r="25" cx="26" cy="26"></circle>
       </svg>
     </CountDownStyle>
   );
@@ -30,8 +30,8 @@ const CountDown = ({ countdown }) => {
 const CountDownStyle = styled('div')(({ countdown }) => ({
   position: 'relative',
   margin: 'auto',
-  height: '50px',
-  width: '50px',
+  height: '55px',
+  width: '55px',
   textAlign: 'center',
   '@keyframes countdown': {
     from: {
@@ -45,8 +45,8 @@ const CountDownStyle = styled('div')(({ countdown }) => ({
     position: 'absolute',
     top: '0',
     right: '0',
-    width: '50px',
-    height: '50px',
+    width: '55px',
+    height: '55px',
     transform: 'rotateY(-180deg) rotateZ(-90deg)',
   },
   'svg circle': {
@@ -63,7 +63,7 @@ const CountDownStyle = styled('div')(({ countdown }) => ({
 const CdNumberStyle = styled('div')({
   color: 'white',
   display: 'inline-block',
-  lineHeight: '50px',
+  lineHeight: '55px',
 });
 
 export default CountDown;

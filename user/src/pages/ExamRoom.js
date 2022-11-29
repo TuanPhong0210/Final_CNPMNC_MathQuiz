@@ -92,10 +92,6 @@ const questions = [
 ];
 
 const ExamRoom = () => {
-  window.addEventListener('beforeunload', function (event) {
-    event.returnValue = 'Write something clever here..';
-  });
-
   return (
     <RootStyle>
       <SidebarLeft questions={questions} />

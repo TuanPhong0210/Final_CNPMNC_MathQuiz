@@ -54,6 +54,7 @@ const ButtonSubmit = styled(Button)({
   borderRadius: '8px',
   boxShadow: '0px 4px 0px #6c4298',
   transition: '0.1s all ease-in-out',
+  color: '#fff',
   '&:hover': {
     boxShadow: 'inset 0 0 0 rgb(0 0 0 / 10%), 4px 4px 0 2px rgb(0 0 0 / 10%)',
     backgroundColor: '#703BA9',

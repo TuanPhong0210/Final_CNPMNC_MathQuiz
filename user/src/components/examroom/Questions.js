@@ -4,25 +4,65 @@ import BoxStyled from '../BoxStyled';
 
 const Questions = ({ question, index }) => {
   const answers = question.options;
-  const [active, setActive] = useState(true);
+  const [checkedSingle, setCheckedSingle] = useState();
+  const [checkedMultiple, setCheckedMultiple] = useState([]);
+  const [questionSelected, setQuestionSelected] = useState([]);
 
-  const Checked = () => {
-    return active ? 'btn-active' : '';
+  console.log(questionSelected);
+  console.log(checkedSingle);
+
+  const handleCheckSingle = (value) => {
+    setCheckedSingle(value);
+    const question_id = question._id;
+    // const isCheckedId = questionSelected.filter(question_id);
+    console.log(isCheckedId);
+    setQuestionSelected((prev) => [...prev, { question_id, value }]);
+    // setQuestionSelected((prev) => {
+    //   console.log(isCheckedId);
+    //   if (isCheckedId) [...prev, { question_id, value }];
+    // });
   };
-  console.log(active);
-  console.log(Checked);
+
+  const handleCheckMultiple = (value) => {
+    setCheckedMultiple((prev) => {
+      const isChecked = checkedMultiple.includes(value);
+      if (isChecked) {
+        return checkedMultiple.filter((item) => item !== value);
+      } else {
+        return [...prev, value];
+      }
+    });
+  };
 
   const typequestion = (
     <Grid container spacing={2}>
-      {question.type !== 'TEXT' ? (
+      {question.type === 'SINGLE' &&
         answers.map((answer, index) => {
           return (
             <Grid key={index} item xs={6}>
-              <Answer className="btn-active">{answer.ans}</Answer>
+              <Answer
+                className={checkedSingle === answer.value ? 'btn-active' : ''}
+                onClick={() => handleCheckSingle(answer.value)}
+              >
+                {answer.ans}
+              </Answer>
             </Grid>
           );
-        })
-      ) : (
+        })}
+      {question.type === 'MULTIPLE' &&
+        answers.map((answer, index) => {
+          return (
+            <Grid key={index} item xs={6}>
+              <Answer
+                className={checkedMultiple.includes(answer.value) ? 'btn-active' : ''}
+                onClick={() => handleCheckMultiple(answer.value)}
+              >
+                {answer.ans}
+              </Answer>
+            </Grid>
+          );
+        })}
+      {question.type === 'TEXT' && (
         <Grid item xs={12}>
           <TextFieldStyle
             placeholder="Enter your results here"
@@ -62,10 +102,6 @@ const Answer = styled(Button)({
   transition: 'all .1s ease',
   '&:hover': {
     backgroundColor: 'rgba(0,0,0,0.6)',
-  },
-  '.btn-active': {
-    backgroundColor: '#62c370',
-    boxShadow: '0 0 0 0 #3fa64e',
   },
 });
 

@@ -14,8 +14,8 @@ const ExamContent = ({ questions }) => {
         height: 'calc(100vh - 104px)',
       }}
     >
-      <div class="scrollbar" id="style-1">
-        <div class="force-overflow">
+      <div className="scrollbar" id="style-1">
+        <div className="force-overflow">
           {questions.map((question, index) => (
             <Questions key={index} question={question} index={index} />
           ))}
