@@ -15,7 +15,7 @@ const Questions = ({ question, index }) => {
     setCheckedSingle(value);
     const question_id = question._id;
     // const isCheckedId = questionSelected.filter(question_id);
-    console.log(isCheckedId);
+    // console.log(isCheckedId);
     setQuestionSelected((prev) => [...prev, { question_id, value }]);
     // setQuestionSelected((prev) => {
     //   console.log(isCheckedId);
