@@ -1,3 +1,12 @@
+// const PRIMARY = {
+//     lighter: '#FFF9AE',
+//     light: '#F8ED62',
+//     main: '#E9D700',
+//     dark: '#DAB600',
+//     darker: '#A98600',
+//     contrastText: '#fff'
+// };
+
 const SECONDARY = {
 	lighter: '#FFA48D',
 	light: '#FF867B',
@@ -35,8 +44,16 @@ const WARNING = {
 };
 
 const COMMON = {
+	// primary: { ...PRIMARY },
 	secondary: { ...SECONDARY },
 	error: { ...ERROR },
 	success: { ...SUCCESS },
 	warning: { ...WARNING },
 };
+
+const palette = {
+	...COMMON,
+	background: { paper: '#FFF', default: '#FFF' }
+};
+
+export default palette;
