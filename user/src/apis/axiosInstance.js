@@ -3,8 +3,6 @@ import { useEffect } from 'react';
 
 // apis
 import accountApi from './accountApi';
-// hooks
-import useModal from '../hooks/useModal';
 // utils
 import { getToken, setToken } from '../utils/jwt';
 // config
@@ -20,7 +18,6 @@ axiosInstance.interceptors.request.use(
 );
 
 const AxiosInterceptor = ({ children }) => {
-  const { openModal, keys } = useModal();
   useEffect(() => {
     const interceptor = axiosInstance.interceptors.response.use(
       (response) => response && response.data,
@@ -32,7 +29,6 @@ const AxiosInterceptor = ({ children }) => {
           const tokens = getToken();
           // unauthorized
           if (!tokens) {
-            openModal(keys.authentication, null, false);
             return Promise.reject(error);
           }
           // generate new token if the authentication is successful
@@ -54,7 +50,7 @@ const AxiosInterceptor = ({ children }) => {
       }
     );
     return () => axiosInstance.interceptors.response.eject(interceptor);
-  }, [openModal, keys]);
+  }, []);
   return children;
 };
 

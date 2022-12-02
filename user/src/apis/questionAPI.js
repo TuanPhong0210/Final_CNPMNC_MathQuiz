@@ -1,3 +1,5 @@
+import axiosInstance from './axiosInstance';
+
 const questionAPI = {
   // [GET] /questions
   findAll: () => {
@@ -5,3 +7,5 @@ const questionAPI = {
     return axiosInstance.get(url);
   },
 };
+
+export default questionAPI;

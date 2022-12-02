@@ -100,6 +100,13 @@ class AccountsAPI {
         return;
       }
 
+      const { type } = account;
+      const validService = Object.keys(Types).find((key) => Types[key][type.toLowerCase()]);
+      if (service !== validService) {
+        next({ status: 400, msg: 'Invalid service!' });
+        return;
+      }
+
       const isRightPassword = await bcrypt.compare(password, account.password);
       if (!isRightPassword) {
         next({ status: 400, msg: 'Log in information is incorrect!' });

@@ -8,17 +8,17 @@ const Questions = ({ question, index, parentCallback }) => {
   const [checkedSingle, setCheckedSingle] = useState(() => {
     const storageSelected = JSON.parse(localStorage.getItem('selected'));
     const checkedId = storageSelected.find((item) => item.question_id === question._id);
-    return checkedId.checkedSingle;
+    return checkedId ? checkedId.checkedSingle : '';
   });
   const [checkedMultiple, setCheckedMultiple] = useState(() => {
     const storageSelected = JSON.parse(localStorage.getItem('selected'));
     const checkedId = storageSelected.find((item) => item.question_id === question._id);
-    return checkedId.checkedMultiple;
+    return checkedId ? checkedId.checkedMultiple : [];
   });
   const [textAnswer, setTextAnswer] = useState(() => {
     const storageSelected = JSON.parse(localStorage.getItem('selected'));
     const checkedId = storageSelected.find((item) => item.question_id === question._id);
-    return checkedId.textAnswer;
+    return checkedId ? checkedId.textAnswer : '';
   });
 
   useEffect(() => {
@@ -29,6 +29,7 @@ const Questions = ({ question, index, parentCallback }) => {
     } else if (checkedMultiple) {
       parentCallback({ question_id, checkedMultiple });
     }
+    // eslint-disable-next-line
   }, [checkedSingle, checkedMultiple, textAnswer]);
 
   const handleCheckSingle = (value) => {

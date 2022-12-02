@@ -4,12 +4,19 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
+// apis
+import { AxiosInterceptor } from './apis/axiosInstance';
+// contexts
+import { AuthProvider } from './contexts/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <HelmetProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
+        <AxiosInterceptor />
         <App />
-      </BrowserRouter>
+      </AuthProvider>
+    </BrowserRouter>
   </HelmetProvider>
 );

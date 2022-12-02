@@ -4,7 +4,14 @@ import Information from '../Information';
 
 const countdown = 5400;
 
-const SidebarRight = () => {
+const SidebarRight = ({ questions }) => {
+  console.log(questions.length);
+  const handleClick = () => {
+    // const newSelected = [];
+    // const jsonSelected = JSON.stringify(newSelected);
+    // localStorage.setItem('selected', jsonSelected);
+    window.location = 'http://localhost:3000/score';
+  };
   return (
     <RootStyle>
       <Stack spacing={2}>
@@ -19,7 +26,7 @@ const SidebarRight = () => {
           <Information />
         </Item>
         <Item>
-          <ButtonSubmit>Submit</ButtonSubmit>
+          <ButtonSubmit onClick={() => handleClick()}>Submit</ButtonSubmit>
         </Item>
       </Stack>
     </RootStyle>
