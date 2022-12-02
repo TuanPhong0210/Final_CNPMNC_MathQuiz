@@ -1,31 +1,62 @@
-// api/axiosInstance.js
 import axios from 'axios';
-import queryString from 'query-string';
+import { useEffect } from 'react';
 
-// Set up default config for http requests here
-// Please have a look at here `https://github.com/axios/axios#request-config` for the full list of configs
+// apis
+import accountApi from './accountApi';
+// hooks
+import useModal from '../hooks/useModal';
+// utils
+import { getToken, setToken } from '../utils/jwt';
+// config
+import { apiConfig } from '../config';
 
 const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-    headers: {
-        'content-type': 'application/json',
-    },
-    paramsSerializer: params => queryString.stringify(params),
+  baseURL: apiConfig.api_url,
 });
 
-axiosInstance.interceptors.request.use(async (config) => {
-    // Handle token here ...
-    return config;
-})
+axiosInstance.interceptors.request.use(
+  (config) => config,
+  (error) => Promise.reject(error)
+);
 
-axiosInstance.interceptors.response.use((response) => {
-    if (response && response.data) {
-        return response.data;
-    }
-    return response;
-}, (error) => {
-    // Handle errors
-    throw error;
-});
+const AxiosInterceptor = ({ children }) => {
+  const { openModal, keys } = useModal();
+  useEffect(() => {
+    const interceptor = axiosInstance.interceptors.response.use(
+      (response) => response && response.data,
+      async (error) => {
+        const originalRequest = error.config;
+        // Access Token was expired or Unauthorized
+        if (error.response.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true; // mark to try again only once
+          const tokens = getToken();
+          // unauthorized
+          if (!tokens) {
+            openModal(keys.authentication, null, false);
+            return Promise.reject(error);
+          }
+          // generate new token if the authentication is successful
+          try {
+            const newTokens = await accountApi.refreshToken({ refreshToken: tokens.refreshToken });
+            setToken(newTokens);
+            originalRequest.headers['Authorization'] = `Bearer ${newTokens.accessToken}`;
+            return axiosInstance(originalRequest);
+          } catch (error) {
+            setToken(null);
+            window.location.reload();
+          }
+        }
+        // Forbidden
+        if (error.response.status === 403) {
+          alert('Forbidden...!');
+        }
+        return Promise.reject(error);
+      }
+    );
+    return () => axiosInstance.interceptors.response.eject(interceptor);
+  }, [openModal, keys]);
+  return children;
+};
 
+export { AxiosInterceptor };
 export default axiosInstance;

@@ -1,7 +1,11 @@
 import { Box, styled } from '@mui/material';
 
-const BoxStyled = ({ children, style }) => {
-  return <BoxStyle sx={style}>{children}</BoxStyle>;
+const BoxStyled = ({ children, style, question_id }) => {
+  return (
+    <BoxStyle id={question_id} sx={style}>
+      {children}
+    </BoxStyle>
+  );
 };
 
 const BoxStyle = styled(Box)({

@@ -7,38 +7,32 @@ import Loading from '../components/Loading';
 import MainLayout from '../layouts';
 
 const PageLoader = (Component) => (props) => {
-	return (
-		<Suspense fallback={<Loading />}>
-			<Component {...props} />
-		</Suspense>
-	);
+  return (
+    <Suspense fallback={<Loading />}>
+      <Component {...props} />
+    </Suspense>
+  );
 };
 
 const Router = () => {
-    return useRoutes([
-        {
-            path: 'auth',
-            element: (
-                <MainLayout />
-            ),
-            children: [
-                { path: 'login', element: <Login /> },
-            ]
-        },
-        // Main routes
-        {
-            path: '/',
-            element: (
-                <MainLayout />
-            ),
-            children: [
-                { path: '', element: <Home />},
-                { path: 'examroom', element: <ExamRoom /> },
-                { path: 'score', element: <Score /> },
-            ]
-        },
-    ])
-}
+  return useRoutes([
+    {
+      path: 'auth',
+      element: <MainLayout />,
+      children: [{ path: 'login', element: <Login /> }],
+    },
+    // Main routes
+    {
+      path: '/',
+      element: <MainLayout />,
+      children: [
+        { path: '', element: <Home /> },
+        { path: 'examroom', element: <ExamRoom /> },
+        { path: 'score', element: <Score /> },
+      ],
+    },
+  ]);
+};
 
 export default Router;
 

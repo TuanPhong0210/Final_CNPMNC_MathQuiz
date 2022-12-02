@@ -50,7 +50,7 @@ const CountDownStyle = styled('div')(({ countdown }) => ({
     transform: 'rotateY(-180deg) rotateZ(-90deg)',
   },
   'svg circle': {
-    strokeDasharray: '113px',
+    strokeDasharray: '155px',
     strokeDashoffset: '0px',
     strokeLinecap: 'round',
     strokeWidth: '2px',

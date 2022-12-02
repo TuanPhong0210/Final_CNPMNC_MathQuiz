@@ -1,26 +1,38 @@
 import { Grid, styled, Input, Typography, Button } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BoxStyled from '../BoxStyled';
 
-const Questions = ({ question, index }) => {
+const Questions = ({ question, index, parentCallback }) => {
+  const question_id = question._id;
   const answers = question.options;
-  const [checkedSingle, setCheckedSingle] = useState();
-  const [checkedMultiple, setCheckedMultiple] = useState([]);
-  const [questionSelected, setQuestionSelected] = useState([]);
+  const [checkedSingle, setCheckedSingle] = useState(() => {
+    const storageSelected = JSON.parse(localStorage.getItem('selected'));
+    const checkedId = storageSelected.find((item) => item.question_id === question._id);
+    return checkedId.checkedSingle;
+  });
+  const [checkedMultiple, setCheckedMultiple] = useState(() => {
+    const storageSelected = JSON.parse(localStorage.getItem('selected'));
+    const checkedId = storageSelected.find((item) => item.question_id === question._id);
+    return checkedId.checkedMultiple;
+  });
+  const [textAnswer, setTextAnswer] = useState(() => {
+    const storageSelected = JSON.parse(localStorage.getItem('selected'));
+    const checkedId = storageSelected.find((item) => item.question_id === question._id);
+    return checkedId.textAnswer;
+  });
 
-  console.log(questionSelected);
-  console.log(checkedSingle);
+  useEffect(() => {
+    if (checkedSingle) {
+      parentCallback({ question_id, checkedSingle });
+    } else if (textAnswer) {
+      parentCallback({ question_id, textAnswer });
+    } else if (checkedMultiple) {
+      parentCallback({ question_id, checkedMultiple });
+    }
+  }, [checkedSingle, checkedMultiple, textAnswer]);
 
   const handleCheckSingle = (value) => {
     setCheckedSingle(value);
-    const question_id = question._id;
-    // const isCheckedId = questionSelected.filter(question_id);
-    // console.log(isCheckedId);
-    setQuestionSelected((prev) => [...prev, { question_id, value }]);
-    // setQuestionSelected((prev) => {
-    //   console.log(isCheckedId);
-    //   if (isCheckedId) [...prev, { question_id, value }];
-    // });
   };
 
   const handleCheckMultiple = (value) => {
@@ -32,6 +44,10 @@ const Questions = ({ question, index }) => {
         return [...prev, value];
       }
     });
+  };
+
+  const handleInput = (e) => {
+    setTextAnswer(e.target.value);
   };
 
   const typequestion = (
@@ -66,9 +82,11 @@ const Questions = ({ question, index }) => {
         <Grid item xs={12}>
           <TextFieldStyle
             placeholder="Enter your results here"
+            value={textAnswer}
             inputprops={{
               style: { color: '#fff' },
             }}
+            onChange={(e) => handleInput(e)}
           />
         </Grid>
       )}
@@ -76,7 +94,7 @@ const Questions = ({ question, index }) => {
   );
 
   return (
-    <BoxStyled>
+    <BoxStyled question_id={question._id}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography>

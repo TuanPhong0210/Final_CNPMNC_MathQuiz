@@ -29,7 +29,6 @@ const SidebarRight = () => {
 const RootStyle = styled('div')({
   backgroundColor: '#461a42',
   width: '360px',
-  height: '500px',
   borderRadius: '16px 0 0 16px',
   padding: '20px',
   textAlign: 'center',
