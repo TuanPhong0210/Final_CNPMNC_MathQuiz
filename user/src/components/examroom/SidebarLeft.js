@@ -10,7 +10,7 @@ import { styled } from '@mui/material';
 
 const drawerWidth = 240;
 
-function SidebarLeft({ questions }) {
+function SidebarLeft({ questions, selected }) {
   const { window } = questions;
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -21,15 +21,19 @@ function SidebarLeft({ questions }) {
   const drawer = (
     <div>
       <List>
-        {questions.map((question, index) => (
-          <ListItem id={question._id} key={index} disablePadding>
-            <ListItemButton>
-              {/* <Link href={`#${question._id}`}> */}
-              <ListItemTextStyle primary={`Question ${index + 1}: ${question.content}`} />
-              {/* </Link> */}
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {questions.map((question, index) => {
+          const { _id, content } = question;
+          const hasSelected = !!selected[_id];
+          return (
+            <ListItem key={index} disablePadding>
+              <ListItemButton>
+                <ListItemTextStyle
+                  primary={`${hasSelected ? '[Selected]' : ''} Question ${index + 1}: ${content}`}
+                />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
       </List>
     </div>
   );

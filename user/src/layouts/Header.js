@@ -132,7 +132,7 @@ const Header = (props) => {
               <Box sx={{ flexGrow: 0, marginLeft: '30px' }}>
                 <Tooltip title="Open Infomation">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar {...stringAvatar(profile)} />
+                    <Avatar {...stringAvatar(profile.name)} />
                   </IconButton>
                 </Tooltip>
                 <Menu

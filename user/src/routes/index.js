@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 
+// guard
+import AuthGuard from '../guards/AuthGuard';
 // pages
 import Loading from '../components/Loading';
 // layouts
@@ -24,10 +26,13 @@ const Router = () => {
     // Main routes
     {
       path: '/',
-      element: <MainLayout />,
+      element: (
+        <AuthGuard>
+          <MainLayout />
+        </AuthGuard>
+      ),
       children: [
         { path: '', element: <Home /> },
-        { path: 'examroom', element: <ExamRoom /> },
         { path: 'score', element: <Score /> },
       ],
     },
@@ -37,6 +42,5 @@ const Router = () => {
 export default Router;
 
 const Home = PageLoader(lazy(() => import('../pages/Home')));
-const ExamRoom = PageLoader(lazy(() => import('../pages/ExamRoom')));
 const Score = PageLoader(lazy(() => import('../pages/Score')));
 const Login = PageLoader(lazy(() => import('../pages/Login')));

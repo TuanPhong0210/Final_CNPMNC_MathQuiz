@@ -1,16 +1,40 @@
+import { useNavigate } from 'react-router-dom';
 import { Button, Divider, Paper, Stack, styled } from '@mui/material';
+
+// routes
+import { PATH_MAIN } from '../../routes/path';
+//
 import CountDown from '../CountDown';
 import Information from '../Information';
 
-const countdown = 5400;
+const SidebarRight = ({ questions, selected, countdown, examTime }) => {
+  const navigate = useNavigate();
 
-const SidebarRight = ({ questions }) => {
-  console.log(questions.length);
-  const handleClick = () => {
-    // const newSelected = [];
-    // const jsonSelected = JSON.stringify(newSelected);
-    // localStorage.setItem('selected', jsonSelected);
-    window.location = 'http://localhost:3000/score';
+  const handleSubmit = () => {
+    let correctCount = 0;
+    for (let i = 0; i < questions.length; i++) {
+      const { _id, value } = questions[i];
+      const selectedValue = selected[_id];
+      if (!selectedValue) {
+        continue;
+      }
+
+      if (selectedValue.replaceAll('-', '') === value.replaceAll('-', '')) {
+        correctCount++;
+      }
+    }
+    localStorage.removeItem('selected');
+
+    const result = {
+      totalTime: examTime,
+      timeLeft: countdown,
+      correct: correctCount,
+      total: questions.length,
+    };
+    navigate(PATH_MAIN.score, {
+      replace: true,
+      state: result,
+    });
   };
   return (
     <RootStyle>
@@ -19,14 +43,14 @@ const SidebarRight = ({ questions }) => {
           <DividerStyle>Math Test</DividerStyle>
         </Item>
         <Item>
-          <CountDown countdown={countdown} />
+          <CountDown countdown={{ time: countdown, type: 'finish' }} />
         </Item>
         <Item>Time to do multiple choice test</Item>
         <Item>
-          <Information />
+          <Information state={{ totalTime: examTime, total: questions.length }} />
         </Item>
         <Item>
-          <ButtonSubmit onClick={() => handleClick()}>Submit</ButtonSubmit>
+          <ButtonSubmit onClick={handleSubmit}>Submit</ButtonSubmit>
         </Item>
       </Stack>
     </RootStyle>

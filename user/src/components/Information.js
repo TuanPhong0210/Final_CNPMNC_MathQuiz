@@ -1,7 +1,15 @@
 import { Grid, styled } from '@mui/material';
-import BoxStyled from './BoxStyled';
 
-const Information = () => {
+// components
+import BoxStyled from './BoxStyled';
+// hooks
+import useAuth from '../hooks/useAuth';
+// utils
+import { fTime } from '../utils/formatTime';
+
+const Information = ({ state }) => {
+  const { totalTime, timeLeft, total } = state;
+  const { profile } = useAuth();
   return (
     <BoxStyled>
       <GridContainStyle container spacing={1}>
@@ -9,13 +17,13 @@ const Information = () => {
           Fullname:
         </Grid>
         <Grid item xs={7}>
-          Nguyen Tuan Phong
+          {profile.name}
         </Grid>
         <Grid item xs={5}>
           MSSV:
         </Grid>
         <Grid item xs={7}>
-          4501104174
+          {profile.account_code}
         </Grid>
         <Grid item xs={5}>
           Class:
@@ -33,14 +41,28 @@ const Information = () => {
           Questions:
         </Grid>
         <Grid item xs={7}>
-          50 sentences
+          {total} sentences
         </Grid>
-        <Grid item xs={5}>
-          Time:
-        </Grid>
-        <Grid item xs={7}>
-          90 minutes
-        </Grid>
+        {totalTime && (
+          <>
+            <Grid item xs={5}>
+              Exam time:
+            </Grid>
+            <Grid item xs={7}>
+              {fTime(totalTime)}
+            </Grid>
+          </>
+        )}
+        {timeLeft && (
+          <>
+            <Grid item xs={5}>
+              Time spend:
+            </Grid>
+            <Grid item xs={7}>
+              {fTime(totalTime - timeLeft)}
+            </Grid>
+          </>
+        )}
       </GridContainStyle>
     </BoxStyled>
   );

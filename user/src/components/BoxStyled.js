@@ -14,6 +14,7 @@ const BoxStyle = styled(Box)({
   backgroundColor: 'rgba(0,0,0,0.5)',
   border: '1px solid #000',
   borderRadius: '8px',
+  position: 'relative',
 });
 
 export default BoxStyled;

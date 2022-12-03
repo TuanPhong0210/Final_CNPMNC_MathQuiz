@@ -1,28 +1,7 @@
 import { Box } from '@mui/material';
-import { useState } from 'react';
-import Questions from './Questions';
+import Question from './Question';
 
-const ExamContent = ({ questions }) => {
-  const [questionSelected, setQuestionSelected] = useState(() => {
-    const storageSelected = JSON.parse(localStorage.getItem('selected'));
-    return storageSelected ?? [];
-  });
-
-  const callbackFunction = (childData) => {
-    const checkedId = questionSelected.find((item) => item.question_id === childData.question_id);
-    if (checkedId) {
-      setQuestionSelected(
-        questionSelected.filter((item) => item.question_id !== childData.question_id)
-      );
-    }
-    setQuestionSelected((prev) => {
-      const newSelected = [...prev, childData];
-      const jsonSelected = JSON.stringify(newSelected);
-      localStorage.setItem('selected', jsonSelected);
-      return newSelected;
-    });
-  };
-
+const ExamContent = ({ questions, selected, onSelected }) => {
   return (
     <Box
       component="main"
@@ -37,14 +16,18 @@ const ExamContent = ({ questions }) => {
     >
       <div className="scrollbar" id="style-1">
         <div className="force-overflow">
-          {questions.map((question, index) => (
-            <Questions
-              key={index}
-              question={question}
-              index={index}
-              parentCallback={callbackFunction}
-            />
-          ))}
+          {questions.map((question, index) => {
+            const { _id } = question;
+            return (
+              <Question
+                key={index}
+                index={index}
+                question={question}
+                selectedValue={selected[_id]}
+                onSelected={onSelected}
+              />
+            );
+          })}
         </div>
       </div>
     </Box>

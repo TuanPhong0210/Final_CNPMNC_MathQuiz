@@ -54,8 +54,8 @@ const propTypes = {
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const getProfile = () => {
-    return 'Tuệ (Student)';
+  const getProfile = async () => {
+    return await accountApi.getProfile();
   };
   useEffect(() => {
     const initialize = async () => {
@@ -64,7 +64,7 @@ const AuthProvider = ({ children }) => {
         setToken(tokens);
         const isAuthenticated = await isValidToken(tokens);
         if (isAuthenticated) {
-          const profile = getProfile();
+          const { profile } = await getProfile();
           dispatch({
             type: 'INITIALIZE',
             payload: {
@@ -97,7 +97,7 @@ const AuthProvider = ({ children }) => {
     const response = await accountApi.login(params);
     const { name, tokens } = response;
     setToken(tokens);
-    const profile = getProfile();
+    const { profile } = await getProfile();
     dispatch({
       type: 'LOGIN',
       payload: {

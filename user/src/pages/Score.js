@@ -1,9 +1,18 @@
+import { useLocation } from 'react-router-dom';
 import { Box, styled, Typography } from '@mui/material';
-import BoxStyled from '../components/BoxStyled';
 import GroupsIcon from '@mui/icons-material/Groups';
+
+// components
+import BoxStyled from '../components/BoxStyled';
 import Information from '../components/Information';
 
 const Score = () => {
+  const { state } = useLocation();
+
+  if (!state) {
+    return <h1>Chưa thi vào đây làm mẹ gì :D</h1>;
+  }
+
   return (
     <RootStyle>
       <Typography variant="p">Score</Typography>
@@ -24,11 +33,11 @@ const Score = () => {
               <Typography variant="p" lineHeight="34px" fontSize="20px">
                 Score
                 <br />
-                95/100
+                {state.correct}/{state.total}
               </Typography>
             </Box>
           </BoxStyled>
-          <Information />
+          {state && <Information state={state} />}
         </Box>
       </Box>
     </RootStyle>

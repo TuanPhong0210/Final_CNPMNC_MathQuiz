@@ -4,6 +4,12 @@ import axiosInstance from './axiosInstance';
 import { apiConfig } from '../config';
 
 const accountApi = {
+  // [GET] /accounts/profile
+  getProfile: () => {
+    const url = `/accounts/profile`;
+    return axiosInstance.get(url);
+  },
+
   // [POST] /accounts/login
   login: (body) => {
     const url = `/accounts/login`;
