@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { Box, styled, Typography } from '@mui/material';
+import { Box, Container, styled, Typography } from '@mui/material';
 import GroupsIcon from '@mui/icons-material/Groups';
 
 // components
@@ -9,8 +9,26 @@ import Information from '../components/Information';
 const Score = () => {
   const { state } = useLocation();
 
-  if (!state) {
-    return <h1>Chưa thi vào đây làm mẹ gì :D</h1>;
+  if (state) {
+    return (
+      // <RootStyleUnExam>
+      //   <Typography variant="h4">The test was canceled due to not taking it</Typography>
+      //   <Typography variant="h5">Wish you luck next time</Typography>
+      // </RootStyleUnExam>
+      <Container
+        sx={{ height: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <div>
+          <Typography variant="h3" fontWeight="bold" marginBottom="20px">
+            The test <br /> was canceled due <br /> to not taking it
+          </Typography>
+          <Typography variant="h5" fontWeight="bold" paddingLeft="20px" borderLeft="2px solid #fff">
+            Wish you luck next time
+          </Typography>
+        </div>
+        <img width="45%" src="/images/Group118.png" alt="Wish you luck next time" />
+      </Container>
+    );
   }
 
   return (

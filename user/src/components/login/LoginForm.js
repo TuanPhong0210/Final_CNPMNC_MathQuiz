@@ -9,6 +9,8 @@ import useAuth from '../../hooks/useAuth';
 import { PATH_MAIN } from '../../routes/path';
 // config
 import { apiConfig } from '../../config';
+// utils
+import enqueueSnackbar from '../../utils/snackbar';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -24,8 +26,15 @@ const LoginForm = () => {
           ...values,
           service: apiConfig.service || '',
         });
-        console.log(name);
+        enqueueSnackbar(`Welcome ${name} to exam math.`, {
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center',
+          },
+        });
         navigate(PATH_MAIN.home);
+        console.log(name);
       } catch (error) {
         console.log(error);
         resetForm();
@@ -39,18 +48,19 @@ const LoginForm = () => {
         <Stack spacing={2} sx={{ width: '80%', display: 'flex', margin: 'auto' }}>
           <Stack display="flex" alignItems="center" justifyContent="center">
             <Typography variant="p" sx={{ fontWeight: 'bold' }}>
-              Để làm quiz này
+              Login with student account
             </Typography>
             <Typography variant="p" alignItems="center">
-              1. Sử dụng bất kỳ thiết bị nào để mở
+              Account provided by the instructor
             </Typography>
             <Typography variant="p" alignItems="center">
-              2. Nhập Mã tham gia
+              Do not use for other purposes
             </Typography>
           </Stack>
           <TextFieldStyle
             fullWidth
-            label="MSSV"
+            label="Account Code..."
+            variant="filled"
             {...getFieldProps('account_code')}
             error={Boolean(touched.account_code && errors.account_code)}
             helperText={touched.account_code && errors.account_code}
@@ -59,6 +69,7 @@ const LoginForm = () => {
             type="password"
             fullWidth
             label="Enter your password..."
+            variant="filled"
             {...getFieldProps('password')}
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}

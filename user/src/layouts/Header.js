@@ -109,11 +109,9 @@ const Header = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <img
-            src="/images/white-brandmark-600x164.png"
-            alt="White Brandmark"
-            style={{ height: '24px' }}
-          />
+          <Typography variant="h4" style={{ fontFamily: "'Pacifico', cursive" }}>
+            DOT Quiz
+          </Typography>
           <AvatarStyle>
             <FormControlLabel
               style={{ margin: '0 10px' }}

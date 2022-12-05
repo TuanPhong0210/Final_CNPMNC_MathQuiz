@@ -1,5 +1,6 @@
 import { Grid, styled, Input, Typography, Button } from '@mui/material';
 import { useState } from 'react';
+import { Element } from 'react-scroll';
 
 // components
 import BoxStyled from '../BoxStyled';
@@ -63,19 +64,21 @@ const Questions = ({ index, question, selectedValue, onSelected }) => {
   );
 
   return (
-    <BoxStyled id={_id} question_id={question._id}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography>
-            <span style={{ fontWeight: 'bold' }}>Question {index + 1}: &nbsp;</span>
-            {question.content}
-          </Typography>
+    <Element name={_id}>
+      <BoxStyled id={_id} question_id={question._id}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography>
+              <span style={{ fontWeight: 'bold' }}>Question {index + 1}: &nbsp;</span>
+              {question.content}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            {questionRender}
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          {questionRender}
-        </Grid>
-      </Grid>
-    </BoxStyled>
+      </BoxStyled>
+    </Element>
   );
 };
 

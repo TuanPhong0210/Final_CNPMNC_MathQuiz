@@ -7,6 +7,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { styled } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Link } from 'react-scroll';
 
 const drawerWidth = 240;
 
@@ -27,9 +29,21 @@ function SidebarLeft({ questions, selected }) {
           return (
             <ListItem key={index} disablePadding>
               <ListItemButton>
-                <ListItemTextStyle
-                  primary={`${hasSelected ? '[Selected]' : ''} Question ${index + 1}: ${content}`}
-                />
+                <Link
+                  to={_id}
+                  spy={true}
+                  smooth={true}
+                  duration={250}
+                  containerId="containerElement"
+                  style={{
+                    color: '#fff',
+                    width: '100%',
+                    display: 'flex',
+                  }}
+                >
+                  <ListItemTextStyle primary={` Question ${index + 1}: ${content}`} />
+                  {hasSelected && <CheckCircleIcon style={{ color: '#00ff00' }} />}
+                </Link>
               </ListItemButton>
             </ListItem>
           );

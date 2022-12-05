@@ -13,7 +13,7 @@ import useAuth from '../hooks/useAuth';
 // utils
 import { fTime, getDiffTimeToNowInSeconds, timeToSeconds } from '../utils/formatTime';
 
-const startTime = '2022-12-03 20:54:00';
+const startTime = '2022-12-05 22:30:00';
 const examTime = '00:60:00';
 
 const Home = () => {
@@ -46,11 +46,15 @@ const Home = () => {
       <Container
         sx={{ height: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        <Typography variant="h5" fontWeight="bold" textAlign="center">
-          There are currently no exam rooms available
-          <br />
-          Please come back later
-        </Typography>
+        <div>
+          <Typography variant="h3" fontWeight="bold" marginBottom="20px">
+            There are <br /> currently no exam <br /> rooms available
+          </Typography>
+          <Typography variant="h5" fontWeight="bold" paddingLeft="20px" borderLeft="2px solid #fff">
+            Please come back later
+          </Typography>
+        </div>
+        <img width="45%" src="/images/Group118.png" alt="Please come back later" />
       </Container>
     );
   }
