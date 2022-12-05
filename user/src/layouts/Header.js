@@ -110,7 +110,7 @@ const Header = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h4" style={{ fontFamily: "'Pacifico', cursive" }}>
-            DOT Quiz
+            Math Quiz
           </Typography>
           <AvatarStyle>
             <FormControlLabel
