@@ -9,7 +9,7 @@ import Information from '../components/Information';
 const Score = () => {
   const { state } = useLocation();
 
-  if (state) {
+  if (!state) {
     return (
       // <RootStyleUnExam>
       //   <Typography variant="h4">The test was canceled due to not taking it</Typography>

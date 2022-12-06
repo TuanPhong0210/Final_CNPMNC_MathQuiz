@@ -10,7 +10,7 @@ import { PATH_MAIN } from '../../routes/path';
 // config
 import { apiConfig } from '../../config';
 // utils
-import enqueueSnackbar from '../../utils/snackbar';
+// import enqueueSnackbar from '../../utils/snackbar';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -26,13 +26,13 @@ const LoginForm = () => {
           ...values,
           service: apiConfig.service || '',
         });
-        enqueueSnackbar(`Welcome ${name} to exam math.`, {
-          variant: 'success',
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'center',
-          },
-        });
+        // enqueueSnackbar(`Welcome ${name} to exam math.`, {
+        //   variant: 'success',
+        //   anchorOrigin: {
+        //     vertical: 'bottom',
+        //     horizontal: 'center',
+        //   },
+        // });
         navigate(PATH_MAIN.home);
         console.log(name);
       } catch (error) {
