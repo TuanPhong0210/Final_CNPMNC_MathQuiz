@@ -1,5 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom';
-import { Space, MenuProps, Layout, Menu, Image, SiderProps } from 'antd';
+import { Space, MenuProps, Layout, Menu, SiderProps, Typography } from 'antd';
 
 // hooks
 import useAuth from '../../hooks/useAuth';
@@ -7,6 +7,7 @@ import useAuth from '../../hooks/useAuth';
 import { PATH_DASHBOARD } from '../../routes/path';
 
 const { Sider } = Layout;
+const { Title } = Typography;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -36,7 +37,7 @@ const SideBar = (props: SiderProps) => {
     <Sider {...props}>
       <Space align="center" style={{ display: 'flex', justifyContent: 'center', margin: '10px 0' }}>
         <Link to={PATH_DASHBOARD.root}>
-          <Image preview={false} width={50} src="/logo.png" />
+          <Title level={3} style={{color: '#fff', fontFamily: "'Pacifico', cursive"}}>Math Quiz</Title>
         </Link>
       </Space>
       <Menu

@@ -13,7 +13,7 @@ import useAuth from '../hooks/useAuth';
 // utils
 import { fTime, getDiffTimeToNowInSeconds, timeToSeconds } from '../utils/formatTime';
 
-const startTime = '2022-12-05 22:30:00';
+const startTime = '2022-12-06 21:00:00';
 const examTime = '00:60:00';
 
 const Home = () => {
@@ -54,7 +54,7 @@ const Home = () => {
             Please come back later
           </Typography>
         </div>
-        <img width="45%" src="/images/Group118.png" alt="Please come back later" />
+        <img width="50%" src="/images/Group118.png" alt="Please come back later" />
       </Container>
     );
   }
