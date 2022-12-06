@@ -7,6 +7,7 @@ const accountsAPI = require('../app/controllers/AccountsAPI');
 const verifyToken = require('../app/middlewares/verifyToken');
 
 router.put('/:_id', accountsAPI.update);
+router.post('/refreshToken', accountsAPI.refreshToken);
 router.post('/login', accountsAPI.login);
 router.post('/', accountsAPI.create);
 router.get('/profile', verifyToken, accountsAPI.getProfile);

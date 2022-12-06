@@ -57,7 +57,10 @@ class QuestionsAPI {
 
   // [PUT] /questions/:_id
   /*
-    
+    content: String,
+    [type]: String Enum ['SINGLE', 'MULTIPLE', 'TEXT']
+    options: Mixed,
+    value: String
   */
   async update(req, res, next) {
     try {

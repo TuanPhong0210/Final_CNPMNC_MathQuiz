@@ -21,6 +21,7 @@ export const PATH_DASHBOARD = {
     edit: (type: string | undefined, _id: string) => path(ROOT_ACCOUNT, `/${type}/edit/${_id}`),
   },
   questions: path(ROOT_DASHBOARD, 'questions'),
+  rooms: path(ROOT_DASHBOARD, 'rooms'),
   accessControl: {
     root: ROOT_ACCESS_CONTROL,
     roles: path(ROOT_ACCESS_CONTROL, '/roles'),

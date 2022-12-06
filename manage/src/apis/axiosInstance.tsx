@@ -39,7 +39,10 @@ const AxiosInterceptor = ({ children }: { children: JSX.Element }) => {
           if (!tokens) navigate(PATH_AUTH.login, { replace: true });
           // generate new token if the authentication is successful
           try {
-            const newTokens = await accountApi.refreshToken({ refreshToken: tokens?.refreshToken });
+            const newTokens = await accountApi.refreshToken({
+              refreshToken: tokens?.refreshToken,
+              service: apiConfig.service || '',
+            });
             setToken(newTokens);
             if (originalRequest.headers)
               originalRequest.headers['Authorization'] = `Bearer ${newTokens.accessToken}`;

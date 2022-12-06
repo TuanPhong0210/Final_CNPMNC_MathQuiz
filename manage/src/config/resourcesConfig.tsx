@@ -4,6 +4,7 @@ import {
   DashboardOutlined,
   UserOutlined,
   QuestionCircleOutlined,
+  FormOutlined,
   ControlOutlined,
   RestOutlined,
 } from '@ant-design/icons';
@@ -13,11 +14,11 @@ import type { Resources, Resource, Permission } from '../models';
 // redux
 import { getAccountsAction } from '../redux/actions/account';
 import { getQuestionsAction } from '../redux/actions/question';
+import { getRoomsAction } from '../redux/actions/room';
 // routes
 import { PATH_DASHBOARD } from '../routes/path';
 // utils
 import { capitalize } from '../utils/formatString';
-
 const getSubKeyByDeepLevel = (level: number, path: string): string => {
   return path.split('/')[level];
 };
@@ -91,6 +92,15 @@ export const generateResources = (resources: Resource[]): ResourceConfig[] => {
       label: root.questions.name,
       icon: <QuestionCircleOutlined />,
       fetching: getQuestionsAction({}),
+    }) ||
+      null,
+    (root.rooms && {
+      id: root.rooms._id,
+      locked: root.rooms.locked,
+      key: PATH_DASHBOARD.rooms,
+      label: root.rooms.name,
+      icon: <FormOutlined />,
+      fetching: getRoomsAction({}),
     }) ||
       null,
     (root['access control'] && {

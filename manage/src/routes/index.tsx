@@ -73,6 +73,14 @@ const Router = () => {
           ),
         },
         {
+          path: 'rooms',
+          element: (
+            <AccessGuard accessConditions={root.rooms}>
+              <RoomList />
+            </AccessGuard>
+          ),
+        },
+        {
           path: 'access-control',
           children: [
             { path: '', element: <Navigate to="/access-control/roles" replace /> },
@@ -148,6 +156,7 @@ const Dashboard = PageLoader(lazy(() => import('../pages/Dashboard')));
 const AccountList = PageLoader(lazy(() => import('../pages/account/AccountList')));
 const AccountCreate = PageLoader(lazy(() => import('../pages/account/AccountCreate')));
 const QuestionList = PageLoader(lazy(() => import('../pages/question/QuestionList')));
+const RoomList = PageLoader(lazy(() => import('../pages/room/RoomList')));
 const Roles = PageLoader(lazy(() => import('../pages/access-control/Roles')));
 const Resources = PageLoader(lazy(() => import('../pages/access-control/Resources')));
 const Operations = PageLoader(lazy(() => import('../pages/access-control/Operations')));

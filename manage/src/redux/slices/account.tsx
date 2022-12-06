@@ -127,7 +127,6 @@ const slice = createSlice({
 const { reducer, actions } = slice;
 export const { clearAction } = actions;
 export const selectAccount = (state: RootState) => state.account;
-export const accountActions = actions;
 export default reducer;
 
 // ------------------------ saga ------------------------

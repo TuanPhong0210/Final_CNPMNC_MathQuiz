@@ -19,7 +19,7 @@ export const uniqueId = (length: number) => {
 };
 
 export const toLocaleTime = (stringDate: string) => {
-  const location = 'en-US';
+  const location = 'vi-VN';
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' } as const;
   const date = new Date(stringDate);
   const time = date.toLocaleTimeString(location);

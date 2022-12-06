@@ -39,6 +39,7 @@ export interface LoginResponse {
 
 export interface RefreshTokenParams {
   refreshToken: TokenProps['refreshToken'];
+  service: string;
 }
 
 const accountApi = {

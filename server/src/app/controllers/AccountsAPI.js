@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 // models
 const { Services, Types, Account, Administrator, Teacher, Student } = require('../models/Account');
 // utils
-const { generateToken } = require('../../utils/jwt');
+const { generateToken, verify } = require('../../utils/jwt');
 const { capitalize } = require('../../utils/formatString');
 
 class AccountsAPI {
@@ -218,6 +218,40 @@ class AccountsAPI {
       });
     } catch (error) {
       console.error(error);
+      next({ status: 500, msg: error.message });
+    }
+  }
+
+  // [POST] /accounts/refreshToken
+  /*
+		refreshToken: String,
+    service: String,
+	*/
+  async refreshToken(req, res, next) {
+    try {
+      const { refreshToken, service } = req.body;
+      const serviceLowerCase = service.toLowerCase();
+
+      if (!refreshToken) {
+        next({ status: 401, msg: 'Unauthorized' });
+        return;
+      }
+
+      verify(refreshToken, process.env.REFRESH_SECRET_SIGNATURE);
+
+      const account = await Account.findOne({ refreshToken });
+      if (!account) {
+        next({ status: 400, msg: 'Refresh token is incorrect!' });
+        return;
+      }
+
+      const { _id, name } = account;
+      const tokens = generateToken({ _id, name, service: serviceLowerCase });
+      account.refreshToken = tokens.refreshToken;
+      await account.save();
+
+      res.status(200).json(tokens);
+    } catch (error) {
       next({ status: 500, msg: error.message });
     }
   }

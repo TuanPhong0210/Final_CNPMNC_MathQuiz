@@ -3,7 +3,7 @@ import axiosInstance from './axiosInstance';
 // models
 import type { ListResponse, StatusResponse, Question } from '../models';
 
-export interface FindAllResponse extends ListResponse<Question> {}
+export interface FindAllQuestionResponse extends ListResponse<Question> {}
 
 export interface CreateQuestionBody extends Omit<Question, '_id'> {}
 export interface CreateQuestionResponse extends StatusResponse {
@@ -16,7 +16,7 @@ export interface UpdateQuestionResponse extends CreateQuestionResponse {}
 
 const questionApi = {
   // [GET] /questions
-  findAll: (): Promise<FindAllResponse> => {
+  findAll: (): Promise<FindAllQuestionResponse> => {
     const url = `/questions`;
     return axiosInstance.get(url);
   },
