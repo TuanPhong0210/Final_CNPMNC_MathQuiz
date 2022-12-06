@@ -5,11 +5,25 @@ const moment = require('moment');
 const { Question } = require('../models/Question');
 const Room = require('../models/Room');
 
+const CURRENT_TIME_ZONE = 7;
+
 class RoomsAPI {
   // [GET] /rooms/closest
   async findClosest(req, res, next) {
     try {
+      var now = new Date();
+      now.setHours(
+        now.getHours() + CURRENT_TIME_ZONE,
+        now.getMinutes(),
+        now.getSeconds(),
+        now.getMilliseconds()
+      );
       const result = await Room.aggregate([
+        {
+          $match: {
+            start_time: { $gte: now },
+          },
+        },
         { $sort: { start_time: -1 } },
         { $limit: 1 },
         {
@@ -37,7 +51,7 @@ class RoomsAPI {
           },
         },
       ]);
-      const room = result[0];
+      const room = result.length ? result[0] : {};
       res.status(200).json(room);
     } catch (error) {
       console.error(error);
@@ -73,7 +87,7 @@ class RoomsAPI {
       if (supervisor) {
         req.body.supervisor = supervisor.map((supervisor) => mongoose.Types.ObjectId(supervisor));
       }
-      req.body.start_time = moment(start_time).add(7, 'h');
+      req.body.start_time = moment(start_time).add(CURRENT_TIME_ZONE, 'h');
       const questions = await Question.find({});
       req.body.questions = questions;
 
@@ -102,11 +116,12 @@ class RoomsAPI {
     try {
       let { _id } = req.params;
       _id = mongoose.Types.ObjectId(_id);
-      const { supervisor } = req.body;
+      const { supervisor, start_time } = req.body;
 
       if (supervisor) {
         req.body.supervisor = supervisor.map((supervisor) => mongoose.Types.ObjectId(supervisor));
       }
+      req.body.start_time = moment(start_time).add(CURRENT_TIME_ZONE, 'h');
 
       const room = await Room.findByIdAndUpdate(_id, req.body, {
         new: true,

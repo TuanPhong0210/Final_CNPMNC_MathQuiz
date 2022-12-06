@@ -4,7 +4,7 @@ import CountDown from '../components/CountDown';
 import BoxStyled from '../components/BoxStyled';
 
 // apis
-import questionAPI from '../apis/questionAPI';
+import roomAPI from '../apis/roomAPI';
 // components
 import { ExamRoom } from '../components/examroom';
 import Loading from '../components/Loading';
@@ -13,31 +13,29 @@ import useAuth from '../hooks/useAuth';
 // utils
 import { fTime, getDiffTimeToNowInSeconds, timeToSeconds } from '../utils/formatTime';
 
-const startTime = '2022-12-06 21:00:00';
-const examTime = '00:60:00';
-
 const Home = () => {
   const { profile } = useAuth();
-  const [questions, setQuestions] = useState([]);
-  const cdTimeToStart = getDiffTimeToNowInSeconds(startTime);
-  const cdTimeToFinish = cdTimeToStart + timeToSeconds(examTime);
-  const hasRoom = cdTimeToFinish >= 0;
+  const [room, setRoom] = useState(null);
+  const date = room?.start_time && new Date(room.start_time);
+  const cdTimeToStart = date && getDiffTimeToNowInSeconds(date.setHours(date.getHours() - 7));
+  const cdTimeToFinish = date && cdTimeToStart + timeToSeconds(room.exam_time);
+  const hasRoom = room && cdTimeToFinish >= 0;
   const isExaming = cdTimeToStart < 0 && hasRoom;
 
   useEffect(() => {
-    const fetchQuestionList = async () => {
+    const fetchRoom = async () => {
       try {
-        const response = await questionAPI.findAll();
-        setQuestions(response.data);
+        const response = await roomAPI.findClosest();
+        setRoom(response);
       } catch (error) {
         console.log('Failed to fetch news list: ', error);
       }
     };
 
-    fetchQuestionList();
+    fetchRoom();
   }, []);
 
-  if (!questions) {
+  if (!room) {
     return <Loading />;
   }
 
@@ -78,9 +76,9 @@ const Home = () => {
                 Math Test Multiple-Choice
               </Typography>
               <Typography variant="p">
-                Question: <span style={{ color: 'red' }}>{questions.length}</span>, Time:{' '}
-                <span style={{ color: 'red' }}>{fTime(timeToSeconds(examTime))}</span>, Supervisor:{' '}
-                <span style={{ color: 'red' }}>Tran Son Hai</span>
+                Question: <span style={{ color: 'red' }}>{room.questions.length}</span>, Time:{' '}
+                <span style={{ color: 'red' }}>{fTime(timeToSeconds(room.exam_time))}</span>,
+                Supervisor: <span style={{ color: 'red' }}>Tran Son Hai</span>
               </Typography>
             </BoxStyled>
           </Grid>
@@ -122,7 +120,11 @@ const Home = () => {
   }
 
   return (
-    <ExamRoom questions={questions} countdown={cdTimeToFinish} examTime={timeToSeconds(examTime)} />
+    <ExamRoom
+      questions={room.questions}
+      countdown={cdTimeToFinish}
+      examTime={timeToSeconds(room.exam_time)}
+    />
   );
 };
 
