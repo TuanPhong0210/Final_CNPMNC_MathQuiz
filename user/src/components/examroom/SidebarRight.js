@@ -7,7 +7,7 @@ import { PATH_MAIN } from '../../routes/path';
 import CountDown from '../CountDown';
 import Information from '../Information';
 
-const SidebarRight = ({ questions, selected, countdown, examTime }) => {
+const SidebarRight = ({ questions, selected, countdown, examTime, supervisor }) => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
@@ -30,6 +30,7 @@ const SidebarRight = ({ questions, selected, countdown, examTime }) => {
       timeLeft: countdown,
       correct: correctCount,
       total: questions.length,
+      supervisor: supervisor,
     };
     navigate(PATH_MAIN.score, {
       replace: true,
@@ -47,7 +48,10 @@ const SidebarRight = ({ questions, selected, countdown, examTime }) => {
         </Item>
         <Item>Time to do multiple choice test</Item>
         <Item>
-          <Information state={{ totalTime: examTime, total: questions.length }} />
+          <Information
+            state={{ totalTime: examTime, total: questions.length }}
+            supervisor={supervisor}
+          />
         </Item>
         <Item>
           <ButtonSubmit onClick={handleSubmit}>Submit</ButtonSubmit>

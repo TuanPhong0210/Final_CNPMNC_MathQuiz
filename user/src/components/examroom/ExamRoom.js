@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styled } from '@mui/material';
 
 // constant
@@ -8,11 +8,23 @@ import ExamContent from './ExamContent';
 import SidebarRight from './SidebarRight';
 import SidebarLeft from './SidebarLeft';
 
-const ExamRoom = ({ questions, countdown, examTime }) => {
+const ExamRoom = ({ questions, countdown, examTime, supervisor }) => {
   const [selected, setSelected] = useState(() => {
     const storage = JSON.parse(localStorage.getItem('selected'));
     return storage ?? {};
   });
+  useEffect(() => {
+    window.addEventListener('beforeunload', (e) => {
+      e.preventDefault();
+      e.returnValue = '';
+    });
+    return () => {
+      window.removeEventListener('beforeunload', (e) => {
+        e.preventDefault();
+        e.returnValue = '';
+      });
+    };
+  }, []);
 
   const buildMatchValue = (questionId, value, type) => {
     const lastSelect = value.split('-').pop();
@@ -50,6 +62,7 @@ const ExamRoom = ({ questions, countdown, examTime }) => {
         selected={selected}
         countdown={countdown}
         examTime={examTime}
+        supervisor={supervisor}
       />
     </RootStyle>
   );

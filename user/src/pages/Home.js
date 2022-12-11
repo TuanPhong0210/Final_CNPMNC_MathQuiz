@@ -12,6 +12,7 @@ import Loading from '../components/Loading';
 import useAuth from '../hooks/useAuth';
 // utils
 import { fTime, getDiffTimeToNowInSeconds, timeToSeconds } from '../utils/formatTime';
+import { getResult } from '../utils/formatName';
 
 const Home = () => {
   const { profile } = useAuth();
@@ -76,9 +77,14 @@ const Home = () => {
                 Math Test Multiple-Choice
               </Typography>
               <Typography variant="p">
-                Question: <span style={{ color: 'red' }}>{room.questions.length}</span>, Time:{' '}
-                <span style={{ color: 'red' }}>{fTime(timeToSeconds(room.exam_time))}</span>,
-                Supervisor: <span style={{ color: 'red' }}>Tran Son Hai</span>
+                Question: <span style={{ color: 'red' }}>{room.questions.length}</span>, &nbsp;
+                Time: <span style={{ color: 'red' }}>{fTime(timeToSeconds(room.exam_time))}</span>,
+                &nbsp; Supervisor:{' '}
+                {room.supervisor.map((supervisor, index) => (
+                  <span key={supervisor._id} style={{ color: 'red' }}>
+                    {(index ? ', ' : '') + getResult(supervisor.name)}
+                  </span>
+                ))}
               </Typography>
             </BoxStyled>
           </Grid>
@@ -107,9 +113,9 @@ const Home = () => {
                   Noted:
                 </Typography>
                 <Stack>
-                  <Typography> • Do not reload the web page.</Typography>
-                  <Typography> • Do not enable new windows/tabs on the web.</Typography>
-                  <Typography> • Do not use materials during the test.</Typography>
+                  <Typography> • &emsp; Do not reload the web page.</Typography>
+                  <Typography> • &emsp; Do not enable new windows/tabs on the web.</Typography>
+                  <Typography> • &emsp; Do not use materials during the test.</Typography>
                 </Stack>
               </Stack>
             </BoxStyled>
@@ -124,6 +130,7 @@ const Home = () => {
       questions={room.questions}
       countdown={cdTimeToFinish}
       examTime={timeToSeconds(room.exam_time)}
+      supervisor={room.supervisor}
     />
   );
 };

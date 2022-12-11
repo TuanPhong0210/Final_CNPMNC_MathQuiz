@@ -6,9 +6,11 @@ import BoxStyled from './BoxStyled';
 import useAuth from '../hooks/useAuth';
 // utils
 import { fTime } from '../utils/formatTime';
+import { getResult } from '../utils/formatName';
 
-const Information = ({ state }) => {
-  const { totalTime, timeLeft, total } = state;
+const Information = ({ state, supervisor: super1 }) => {
+  const { totalTime, timeLeft, total, supervisor: super2 } = state;
+  const superr = super1 ? super1 : super2 ? super2 : [];
   const { profile } = useAuth();
   return (
     <BoxStyled>
@@ -32,10 +34,12 @@ const Information = ({ state }) => {
           K45.CNTTA
         </Grid>
         <Grid item xs={5}>
-          Teacher:
+          Supervisor:
         </Grid>
         <Grid item xs={7}>
-          Tran Son Hai
+          {superr.map((supervisor, index) => (
+            <span key={supervisor._id}>{(index ? ', ' : '') + getResult(supervisor.name)}</span>
+          ))}
         </Grid>
         <Grid item xs={5}>
           Questions:
